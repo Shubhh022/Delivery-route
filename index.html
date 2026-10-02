@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Delivery Route</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Delivery Route</h1>
+        <p class="subtitle">the shortest delivery route</p>
+
+        <div class="route-selection">
+
+            <div class="input-group">
+                <label for="fromLocation">From:</label>
+                <select id="fromLocation">
+                    <option value="">Select Location</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="toLocation">To:</label>
+                <select id="toLocation">
+                    <option value="">Select Location</option>
+                </select>
+            </div>
+
+            <button id="findRouteButton">Find Route</button>
+
+        </div>
+
+        <div class="route-result">
+
+            <h2>Best Delivery Route</h2>
+
+            <div id="routeSteps">
+                <p>Select locations to find a route.</p>
+            </div>
+
+            <div class="route-details">
+
+                <div class="detail">
+                    <h3>Distance</h3>
+                    <p id="distance">-</p>
+                </div>
+
+                <div class="detail">
+                    <h3>Stops</h3>
+                    <p id="stops">-</p>
+                </div>
+
+                <div class="detail">
+                    <h3>Estimated Time</h3>
+                    <p id="time">-</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
