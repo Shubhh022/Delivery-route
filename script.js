@@ -1,4 +1,4 @@
-let locations = deliveryNetwork.locations;
+ let locations = deliveryNetwork.locations;
 let roads = deliveryNetwork.roads;
 
 let fromLocation = document.getElementById("fromLocation");
