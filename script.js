@@ -1,4 +1,5 @@
- let locations = deliveryNetwork.locations;
+
+let locations = deliveryNetwork.locations;
 let roads = deliveryNetwork.roads;
 
 let fromLocation = document.getElementById("fromLocation");
@@ -11,6 +12,7 @@ let stops = document.getElementById("stops");
 let time = document.getElementById("time");
 
 for (let i = 0; i < locations.length; i++) {
+
     let option1 = document.createElement("option");
     option1.value = locations[i].id;
     option1.textContent = locations[i].name;
@@ -22,77 +24,86 @@ for (let i = 0; i < locations.length; i++) {
     toLocation.appendChild(option2);
 }
 
-function findShortestRoute(startId, endId) {
-    let distances = {};
+function findShortestRoute(start, end) {
+
+    let distanceList = {};
     let previous = {};
     let visited = {};
 
     for (let i = 0; i < locations.length; i++) {
+
         let id = locations[i].id;
 
-        distances[id] = Infinity;
+        distanceList[id] = Infinity;
         previous[id] = null;
         visited[id] = false;
     }
 
-    distances[startId] = 0;
+    distanceList[start] = 0;
 
     for (let i = 0; i < locations.length; i++) {
-        let currentLocation = null;
-        let smallestDistance = Infinity;
+
+        let current = null;
+        let smallest = Infinity;
 
         for (let j = 0; j < locations.length; j++) {
+
             let id = locations[j].id;
 
-            if (visited[id] == false && distances[id] < smallestDistance) {
-                smallestDistance = distances[id];
-                currentLocation = id;
+            if (visited[id] == false && distanceList[id] < smallest) {
+                smallest = distanceList[id];
+                current = id;
             }
         }
 
-        if (currentLocation == null) {
+        if (current == null) {
             break;
         }
 
-        visited[currentLocation] = true;
+        visited[current] = true;
 
         for (let j = 0; j < roads.length; j++) {
-            let road = roads[j];
-            let nextLocation = null;
 
-            if (road.from == currentLocation) {
-                nextLocation = road.to;
-            } else if (road.to == currentLocation) {
-                nextLocation = road.from;
+            let road = roads[j];
+            let next = null;
+
+            if (road.from == current) {
+                next = road.to;
+            }
+            else if (road.to == current) {
+                next = road.from;
             }
 
-            if (nextLocation != null) {
-                let newDistance = distances[currentLocation] + road.distance;
+            if (next != null) {
 
-                if (newDistance < distances[nextLocation]) {
-                    distances[nextLocation] = newDistance;
-                    previous[nextLocation] = currentLocation;
+                let newDistance = distanceList[current] + road.distance;
+
+                if (newDistance < distanceList[next]) {
+                    distanceList[next] = newDistance;
+                    previous[next] = current;
                 }
             }
         }
     }
 
     let route = [];
-    let currentLocation = endId;
+    let current = end;
 
-    while (currentLocation != null) {
-        route.unshift(currentLocation);
-        currentLocation = previous[currentLocation];
+    while (current != null) {
+        route.unshift(current);
+        current = previous[current];
     }
 
     return {
         route: route,
-        distance: distances[endId]
+        distance: distanceList[end]
     };
 }
 
 function getLocationName(id) {
+
     for (let i = 0; i < locations.length; i++) {
+
         if (locations[i].id == id) {
             return locations[i].name;
         }
@@ -102,18 +113,22 @@ function getLocationName(id) {
 }
 
 function displayRoute(result) {
+
     routeSteps.innerHTML = "";
 
     for (let i = 0; i < result.route.length; i++) {
-        let locationName = getLocationName(result.route[i]);
+
+        let name = getLocationName(result.route[i]);
 
         let locationElement = document.createElement("div");
+
         locationElement.className = "route-location";
-        locationElement.textContent = locationName;
+        locationElement.textContent = name;
 
         routeSteps.appendChild(locationElement);
 
         if (i < result.route.length - 1) {
+
             let arrow = document.createElement("div");
 
             arrow.className = "route-arrow";
@@ -127,24 +142,27 @@ function displayRoute(result) {
     stops.textContent = result.route.length;
 
     let estimatedTime = result.distance * 5;
+
     time.textContent = estimatedTime + " minutes";
 }
 
 findRouteButton.addEventListener("click", function() {
-    let startId = fromLocation.value;
-    let endId = toLocation.value;
 
-    if (startId == "" || endId == "") {
+    let start = fromLocation.value;
+    let end = toLocation.value;
+
+    if (start == "" || end == "") {
         alert("Please select both locations.");
         return;
     }
 
-    if (startId == endId) {
+    if (start == end) {
         alert("Please select two different locations.");
         return;
     }
 
-    let result = findShortestRoute(startId, endId);
+    let result = findShortestRoute(start, end);
 
     displayRoute(result);
 });
+
