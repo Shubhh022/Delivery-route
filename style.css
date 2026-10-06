@@ -68,7 +68,7 @@ button:hover {
 }
 
 .route-result {
-    background-color: rgb(72, 67, 67);
+    background-color: rgb(36, 9, 9);
     padding: 25px;
     border-radius: 10px;
 }
@@ -79,7 +79,7 @@ button:hover {
 
 #routeSteps {
     padding: 20px;
-    background-color: #a4e0e7;
+    background-color: #43e3f5;
     border-radius: 8px;
     margin-bottom: 20px;
 }
